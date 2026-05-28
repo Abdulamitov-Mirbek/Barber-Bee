@@ -10,30 +10,30 @@ from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQu
 BOT_TOKEN = "8664366274:AAFt0mAWmPJ-YhrL44LhEIoCfDJNMqOAdxI"
 
 BARBERSHOP_INFO = {
-    "name": "Gentleman's Club Barbershop",
-    "address": "ул. Примерная, д. 15, Москва",
-    "phone": "+7 (495) 123-45-67",
-    "working_hours": "Пн-Вс: 10:00 - 22:00",
-    "concept": "Мужской клуб с атмосферой брутальности и уюта"
+    "name": "Barber Bee Бишкек",
+    "address": "г. Бишкек, ул. Киевская, 95",
+    "phone": "+996 555 123 456",
+    "working_hours": "Пн-Сб: 10:00 - 22:00",
+    "concept": "Современный барбершоп в Бишкеке: мужские стрижки, борода, бритье и онлайн-запись."
 }
 
 SERVICES = [
-    {"id": 1, "name": "Мужская стрижка", "price": 1500, "duration": 40},
-    {"id": 2, "name": "Стрижка машинкой", "price": 800, "duration": 20},
-    {"id": 3, "name": "Модельная стрижка", "price": 2000, "duration": 50},
-    {"id": 4, "name": "Детская стрижка", "price": 1000, "duration": 30},
-    {"id": 5, "name": "Моделирование бороды", "price": 1200, "duration": 30},
-    {"id": 6, "name": "Бритье опасной бритвой", "price": 1500, "duration": 40},
-    {"id": 7, "name": "Королевское бритье", "price": 2000, "duration": 50},
-    {"id": 8, "name": "Камуфляж седины", "price": 2500, "duration": 60},
-    {"id": 9, "name": "Комплекс: Стрижка + Борода", "price": 2500, "duration": 70},
+    {"id": 1, "name": "Мужская стрижка", "price": 1200, "duration": 40},
+    {"id": 2, "name": "Стрижка машинкой", "price": 700, "duration": 20},
+    {"id": 3, "name": "Модельная стрижка", "price": 1600, "duration": 50},
+    {"id": 4, "name": "Детская стрижка", "price": 900, "duration": 30},
+    {"id": 5, "name": "Моделирование бороды", "price": 1000, "duration": 30},
+    {"id": 6, "name": "Опасное бритье", "price": 1300, "duration": 40},
+    {"id": 7, "name": "Стрижка + борода", "price": 2000, "duration": 70},
+    {"id": 8, "name": "Камуфляж седины", "price": 2200, "duration": 60},
+    {"id": 9, "name": "Укладка", "price": 500, "duration": 20},
 ]
 
 BARBERS = [
-    {"id": 1, "name": "Алексей 'Alex'", "specialization": "Мужские стрижки, Камуфляж", "level": "Топ-мастер"},
-    {"id": 2, "name": "Дмитрий 'Dima'", "specialization": "Борода, Бритье", "level": "Сеньор-мастер"},
-    {"id": 3, "name": "Михаил 'Misha'", "specialization": "Мужские стрижки, Укладка", "level": "Мастер"},
-    {"id": 4, "name": "Сергей 'Serge'", "specialization": "Мужские стрижки", "level": "Мастер"},
+    {"id": 1, "name": "Ислам", "specialization": "Мужские стрижки, фейд, камуфляж седины", "level": "Топ-мастер"},
+    {"id": 2, "name": "Мирбек", "specialization": "Борода, опасное бритье, классика", "level": "Старший мастер"},
+    {"id": 3, "name": "Адилет", "specialization": "Модельные стрижки, укладка", "level": "Мастер"},
+    {"id": 4, "name": "Нурсултан", "specialization": "Мужские стрижки, борода", "level": "Мастер"},
 ]
 
 # Генерация слотов для записи
@@ -181,12 +181,12 @@ async def show_contacts(update: Update):
         f"📍 Адрес: {BARBERSHOP_INFO['address']}\n"
         f"📞 Телефон: {BARBERSHOP_INFO['phone']}\n"
         f"🕐 Время работы: {BARBERSHOP_INFO['working_hours']}\n"
-        f"📸 Instagram: @barberbeeae\n\n"
-        f"☕ Для гостей: кофе, чай, прохладительные напитки\n"
-        f"🎮 В баре: PlayStation, настольные игры\n\n"
+        f"📸 Instagram: @barberbee_bishkek\n\n"
+        f"☕ Для гостей: кофе, чай, вода\n"
+        f"🎮 В зоне ожидания: PlayStation и настольные игры\n\n"
         f"Как добраться:\n"
-        f"• Метро: станция 'Примерная' (5 мин пешком)\n"
-        f"• Парковка: есть бесплатная парковка для клиентов\n\n"
+        f"• Ориентир: центр города, рядом с ТЦ Бишкек Парк\n"
+        f"• Парковка: есть места рядом с барбершопом\n\n"
         f"Ждём вас в гости! 🎩"
     )
     keyboard = [[KeyboardButton("🔙 Главное меню")]]
@@ -197,7 +197,7 @@ async def show_prices(update: Update):
     """Прайс-лист услуг"""
     text = "💰 *Прайс-лист услуг*\n\n"
     for service in SERVICES:
-        text += f"• *{service['name']}* - {service['price']}₽\n  ⏱ {service['duration']} мин\n\n"
+        text += f"• *{service['name']}* - {service['price']} сом\n  ⏱ {service['duration']} мин\n\n"
     
     text += "\n✨ При записи через бота - бесплатный кофе!"
     
@@ -233,9 +233,9 @@ async def show_comments(update: Update):
         "💬 *Отзывы клиентов*\n\n"
         "📝 Оставьте свой отзыв или прочитайте чужие!\n\n"
         "*Последние отзывы:*\n"
-        "• Алексей: 'Отличная атмосфера, мастер Алекс - профи!'\n"
-        "• Дмитрий: 'Лучшая стрижка за долгое время!'\n"
-        "• Сергей: 'Рекомендую всем друзьям!'\n\n"
+        "• Ислам: 'Отличная атмосфера, фейд получился идеально!'\n"
+        "• Мирбек: 'Лучшее оформление бороды за долгое время!'\n"
+        "• Адилет: 'Рекомендую всем друзьям!'\n\n"
         "Напишите ваш комментарий ниже 👇"
     )
     keyboard = [[KeyboardButton("🔙 Главное меню")]]
@@ -309,7 +309,7 @@ async def start_booking(update: Update):
     
     keyboard = []
     for service in SERVICES:
-        keyboard.append([KeyboardButton(f"{service['name']} - {service['price']}₽")])
+        keyboard.append([KeyboardButton(f"{service['name']} - {service['price']} сом")])
     keyboard.append([KeyboardButton("🔙 Отмена")])
     
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -485,7 +485,7 @@ async def ask_for_name(update: Update):
         f"Мастер: {barber_name}\n"
         f"Дата: {date_formatted}\n"
         f"Время: {time}\n"
-        f"Стоимость: {service['price']}₽\n\n"
+        f"Стоимость: {service['price']} сом\n\n"
         f"Для подтверждения записи, пожалуйста, введите ваше имя:"
     )
     
@@ -537,7 +537,7 @@ async def handle_booking_phone(update: Update):
         f"Мастер: {barber_name}\n"
         f"Дата: {date_formatted}\n"
         f"Время: {state['time']}\n"
-        f"Стоимость: {state['service']['price']}₽\n\n"
+        f"Стоимость: {state['service']['price']} сом\n\n"
         f"Ждём вас! ☕\n\n"
         f"📍 {BARBERSHOP_INFO['address']}\n"
         f"📞 {BARBERSHOP_INFO['phone']}\n\n"
@@ -581,13 +581,21 @@ def main():
         level=logging.INFO
     )
     
-    print("✅ Бот @Burber_Shop_Bee_Bot запускается...")
+    print("✅ Бот Barber Bee Бишкек запускается...")
     print(f"🤖 Токен: {BOT_TOKEN[:10]}...{BOT_TOKEN[-5:]}")
     print("📱 Нажмите Ctrl+C для остановки")
     print("-" * 50)
     
     # Создание приложения
-    application = Application.builder().token(BOT_TOKEN).build()
+    application = (
+        Application.builder()
+        .token(BOT_TOKEN)
+        .connect_timeout(30)
+        .read_timeout(30)
+        .write_timeout(30)
+        .pool_timeout(30)
+        .build()
+    )
     
     # Регистрация обработчиков
     application.add_handler(CommandHandler("start", start_command))
