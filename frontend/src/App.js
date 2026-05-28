@@ -8,7 +8,10 @@ import BarbersSection from './components/BarbersSection';
 import BookingSection from './components/BookingSection';
 import ChatSection from './components/ChatSection';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = process.env.REACT_APP_API_URL 
+  ? `${process.env.REACT_APP_API_URL}/api` 
+  : 'http://localhost:3001/api';
+
 
 function App() {
     const [activeSection, setActiveSection] = useState('home');
