@@ -1,14 +1,5 @@
 {
-  "experimentalServices": {
-    "frontend": {
-      "root": "frontend",
-      "routePrefix": "/",
-      "framework": "create-react-app"
-    },
-    "backend": {
-      "root": "backend",
-      "routePrefix": "/_/backend",
-      "entrypoint": "server.js"
-    }
-  }
+  "buildCommand": "cd frontend && npm run build",
+  "framework": "create-react-app",
+  "outputDirectory": "frontend/build"
 }
