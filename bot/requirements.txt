@@ -1,0 +1,7 @@
+# Telegram Bot Dependencies
+python-telegram-bot>=20.0
+python-dotenv>=1.0.0
+
+# Optional: For webhooks (Uncomment if needed)
+flask>=2.0.0
+gunicorn>=20.0.0

@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barber Bee</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(232, 213, 183, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(232, 213, 183, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 900px;
+                padding: 40px;
+            }
+
+            .header {
+                padding: 30px;
+            }
+
+            .logo {
+                font-size: 56px;
+            }
+
+            .title {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .nav-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            .card-title {
+                font-size: 20px;
+            }
+
+            .service-item {
+                padding: 16px;
+            }
+
+            .service-name {
+                font-size: 15px;
+            }
+
+            .barber-card {
+                padding: 16px;
+            }
+
+            .barber-photo {
+                width: 70px;
+                height: 70px;
+            }
+
+            .barber-name {
+                font-size: 16px;
+            }
+
+            .btn {
+                padding: 16px;
+                font-size: 16px;
+            }
+
+            .input {
+                padding: 14px 16px;
+                font-size: 15px;
+            }
+
+            .slots-grid {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 8px;
+            }
+
+            .slot {
+                padding: 12px 8px;
+                font-size: 14px;
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        @media (min-width: 768px) {
+            .header {
+                padding: 30px;
+                border-radius: 24px;
+                margin-bottom: 40px;
+            }
+        }
+
+        .logo {
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+
+        .title {
+            color: #e8d5b7;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .nav {
+                gap: 10px;
+                margin-bottom: 40px;
+            }
+
+            .nav-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .nav-btn:hover:not(.active) {
+                background: rgba(255, 255, 255, 0.15);
+                transform: translateY(-1px);
+            }
+
+            .nav-btn.active {
+                background: linear-gradient(135deg, #e8d5b7 0%, #d4c4a8 100%);
+            }
+        }
+
+        .nav-btn.active {
+            background: #e8d5b7;
+            color: #1a1a2e;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        @media (min-width: 768px) {
+            .card {
+                border-radius: 24px;
+                padding: 28px;
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+
+            .card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .card-title {
+            color: #e8d5b7;
+            font-size: 18px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .service-item:hover,
+        .service-item.selected {
+            border-color: #e8d5b7;
+            background: rgba(232, 213, 183, 0.1);
+        }
+
+        .service-name {
+            font-size: 14px;
+        }
+
+        .service-price {
+            color: #e8d5b7;
+            font-weight: 700;
+        }
+
+        .service-duration {
+            color: #666;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .barber-card {
+            display: flex;
+            gap: 14px;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        @media (min-width: 768px) {
+            .barber-card {
+                gap: 18px;
+                padding: 20px;
+                border-radius: 16px;
+            }
+
+            .barber-photo {
+                width: 70px;
+                height: 70px;
+                border-width: 3px;
+            }
+
+            .barber-name {
+                font-size: 17px;
+            }
+
+            .barber-specialty {
+                font-size: 13px;
+            }
+
+            .barber-level {
+                font-size: 12px;
+            }
+        }
+
+        .barber-card:hover,
+        .barber-card.selected {
+            border-color: #e8d5b7;
+            background: rgba(232, 213, 183, 0.1);
+        }
+
+        .barber-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e8d5b7;
+        }
+
+        .barber-name {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .barber-specialty {
+            color: #a0a0a0;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .barber-level {
+            display: inline-block;
+            padding: 3px 8px;
+            background: rgba(232, 213, 183, 0.2);
+            color: #e8d5b7;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-top: 6px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #e8d5b7;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        .input:focus {
+            border-color: #e8d5b7;
+        }
+
+        .label {
+            color: #a0a0a0;
+            font-size: 12px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .slot {
+            padding: 10px 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .slot:hover,
+        .slot.selected {
+            background: #e8d5b7;
+            color: #1a1a2e;
+            border-color: #e8d5b7;
+        }
+
+        .promo-banner {
+            background: linear-gradient(135deg, #e8d5b7 0%, #d4c4a8 50%, #c9b89d 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(232, 213, 183, 0.2);
+        }
+
+        @media (min-width: 768px) {
+            .promo-banner {
+                padding: 24px;
+                border-radius: 20px;
+            }
+
+            .promo-title {
+                color: #1a1a2e;
+                font-size: 16px;
+                font-weight: 700;
+            }
+
+            .promo-text {
+                color: #333;
+                font-size: 13px;
+                margin-top: 6px;
+            }
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0a0a0;
+            font-size: 13px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .success-box {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4caf50;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            color: #4caf50;
+        }
+
+        .error-box {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            color: #f44336;
+        }
+
+        .summary {
+            background: rgba(232, 213, 183, 0.1);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .summary-title {
+            color: #e8d5b7;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .summary-item {
+            color: #fff;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .chat-container {
+            max-height: 350px;
+            overflow-y: auto;
+            margin-bottom: 14px;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .chat-msg {
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            max-width: 85%;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .chat-bot {
+            background: rgba(255, 255, 255, 0.1);
+            margin-right: auto;
+        }
+
+        .chat-user {
+            background: #e8d5b7;
+            color: #1a1a2e;
+            margin-left: auto;
+        }
+
+        .chat-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .flex-1 {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">✂️</div>
+            <div class="title">Barber Bee</div>
+            <div class="subtitle">AI-ассистент администратора</div>
+        </div>
+
+        <div class="nav" id="nav">
+            <button class="nav-btn active" data-view="home">🏠 Главная</button>
+            <button class="nav-btn" data-view="services">✂️ Услуги</button>
+            <button class="nav-btn" data-view="barbers">👨 Мастера</button>
+            <button class="nav-btn" data-view="comments">💬 Комменты</button>
+            <button class="nav-btn" data-view="booking">📅 Запись</button>
+            <button class="nav-btn" data-view="chat">💬 Чат</button>
+        </div>
+
+        <!-- HOME VIEW -->
+        <div id="view-home">
+            <div class="promo-banner">
+                <div class="promo-title">🎉 Акция недели!</div>
+                <div class="promo-text">Камуфляж седины со скидкой 15%</div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">О барбершопе</div>
+                <p style="color: #a0a0a0; margin-bottom: 14px; line-height: 1.6; font-size: 14px;">
+                    Мужской клуб с атмосферой брутальности и уюта. Классические стрижки,
+                    бритье опасной бритвой, камуфляж седины.
+                </p>
+                <div class="info-row">
+                    <span>📍</span>
+                    <span>ул. Примерная, д. 15, Москва</span>
+                </div>
+                <div class="info-row">
+                    <span>📞</span>
+                    <span>+7 (495) 123-45-67</span>
+                </div>
+                <div class="info-row">
+                    <span>🕐</span>
+                    <span>Пн-Вс: 10:00 - 22:00</span>
+                </div>
+                <div class="info-row">
+                    <span>☕</span>
+                    <span>Кофе, чай, виски для гостей</span>
+                </div>
+                <div class="info-row">
+                    <span>📸</span>
+                    <a href="https://www.instagram.com/barberbeeae/" target="_blank"
+                        style="color: #e8d5b7; text-decoration: none;">@barberbeeae</a>
+                </div>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn flex-1" onclick="showView('booking')">📅 Записаться</button>
+                <button class="btn btn-secondary flex-1" onclick="showView('services')">💰 Цены</button>
+            </div>
+        </div>
+
+        <!-- SERVICES VIEW -->
+        <div id="view-services" class="hidden">
+            <div class="card">
+                <div class="card-title">Прайс-лист услуг</div>
+                <div id="services-list"></div>
+            </div>
+        </div>
+
+        <!-- BARBERS VIEW -->
+        <div id="view-barbers" class="hidden">
+            <div class="card">
+                <div class="card-title">Наши мастера</div>
+                <div id="barbers-list"></div>
+            </div>
+        </div>
+
+        <!-- COMMENTS VIEW -->
+        <div id="view-comments" class="hidden">
+            <div class="card">
+                <div class="card-title">📝 Отзывы клиентов</div>
+                <div style="margin-bottom: 16px;">
+                    <div class="chat-msg chat-bot" style="margin-bottom: 10px;">
+                        <strong>Алексей:</strong> "Отличная атмосфера, мастер Алекс - профи!"
+                    </div>
+                    <div class="chat-msg chat-bot" style="margin-bottom: 10px;">
+                        <strong>Дмитрий:</strong> "Лучшая стрижка за долгое время!"
+                    </div>
+                    <div class="chat-msg chat-bot" style="margin-bottom: 10px;">
+                        <strong>Сергей:</strong> "Рекомендую всем друзьям!"
+                    </div>
+                </div>
+                <textarea class="input" id="comment-input" placeholder="Оставьте ваш отзыв..." rows="3"
+                    style="resize: none;"></textarea>
+                <button class="btn" onclick="submitComment()">Отправить отзыв</button>
+            </div>
+        </div>
+
+        <!-- BOOKING VIEW -->
+        <div id="view-booking" class="hidden">
+            <!-- Step 1: Select Service -->
+            <div id="booking-step-1" class="card">
+                <div class="card-title">Шаг 1: Выберите услугу</div>
+                <div id="services-booking"></div>
+                <button class="btn" id="btn-step-1" disabled onclick="goToStep(2)">Далее →</button>
+            </div>
+
+            <!-- Step 2: Select Barber -->
+            <div id="booking-step-2" class="card hidden">
+                <div class="card-title">Шаг 2: Выберите мастера</div>
+                <div id="barbers-booking"></div>
+                <div class="btn-row">
+                    <button class="btn btn-secondary" onclick="goToStep(1)">← Назад</button>
+                    <button class="btn" id="btn-step-2" disabled onclick="goToStep(3)">Далее →</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Select Date & Time -->
+            <div id="booking-step-3" class="card hidden">
+                <div class="card-title">Шаг 3: Выберите дату и время</div>
+
+                <label class="label">Дата:</label>
+                <div class="slots-grid" id="dates-grid"></div>
+
+                <div id="times-section" class="hidden">
+                    <label class="label" style="margin-top: 14px;">Время:</label>
+                    <div class="slots-grid" id="times-grid"></div>
+                </div>
+
+                <div class="btn-row" style="margin-top: 16px;">
+                    <button class="btn btn-secondary" onclick="goToStep(2)">← Назад</button>
+                    <button class="btn" id="btn-step-3" disabled onclick="goToStep(4)">Далее →</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Confirmation -->
+            <div id="booking-step-4" class="card hidden">
+                <div class="card-title">Шаг 4: Подтверждение записи</div>
+
+                <div class="summary">
+                    <div class="summary-title">Детали записи:</div>
+                    <div class="summary-item" id="summary-service"></div>
+                    <div class="summary-item" id="summary-barber"></div>
+                    <div class="summary-item" id="summary-datetime"></div>
+                </div>
+
+                <div id="booking-error" class="error-box hidden"></div>
+                <div id="booking-success" class="success-box hidden">
+                    <div style="font-size: 24px; margin-bottom: 8px;">✅</div>
+                    <div style="font-weight: 600;">Запись подтверждена!</div>
+                    <div style="font-size: 13px; margin-top: 6px;" id="success-message"></div>
+                </div>
+
+                <div id="booking-form">
+                    <label class="label">Ваше имя:</label>
+                    <input type="text" class="input" id="client-name" placeholder="Введите имя">
+
+                    <label class="label">Номер телефона:</label>
+                    <input type="tel" class="input" id="client-phone" placeholder="+7 (XXX) XXX-XX-XX">
+
+                    <div class="btn-row">
+                        <button class="btn btn-secondary" onclick="goToStep(3)">← Назад</button>
+                        <button class="btn" id="btn-confirm" disabled onclick="confirmBooking()">Подтвердить
+                            запись</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHAT VIEW -->
+        <div id="view-chat" class="hidden">
+            <div class="card">
+                <div class="card-title">AI-ассистент</div>
+
+                <div class="chat-container" id="chat-messages">
+                    <div style="text-align: center; color: #666; padding: 20px;">
+                        Задайте вопрос или выберите тему:
+                        <div style="margin-top: 14px;">
+                            <button class="nav-btn" onclick="sendMessage('Какие у вас цены?')">Цены</button>
+                            <button class="nav-btn" onclick="sendMessage('Хочу записаться')">Записаться</button>
+                            <button class="nav-btn" onclick="sendMessage('Какие есть акции?')">Акции</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-row">
+                    <input type="text" class="input" id="chat-input" placeholder="Введите сообщение..."
+                        onkeypress="handleChatKey(event)">
+                    <button class="btn" style="width: auto; padding: 12px 16px; margin-top: 0;"
+                        onclick="sendFromInput()">➤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // MOCK DATA
+        // ============================================
+        const SERVICES = [
+            { id: 1, name: "Стрижка машинкой", price: 800, duration: 20 },
+            { id: 2, name: "Мужская стрижка", price: 1500, duration: 40 },
+            { id: 3, name: "Стрижка + Укладка", price: 1800, duration: 50 },
+            { id: 4, name: "Стрижка бороды", price: 1000, duration: 30 },
+            { id: 5, name: "Королевское бритье", price: 1800, duration: 40 },
+            { id: 6, name: "Камуфляж седины", price: 2500, duration: 60 },
+            { id: 7, name: "Комплекс Стрижка + Борода", price: 2000, duration: 70 }
+        ];
+
+        const BARBERS = [
+            { id: 1, name: "Алексей 'Alex' Петров", specialty: "Мужские стрижки, Камуфляж", level: "Топ-мастер", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop" },
+            { id: 2, name: "Дмитрий 'Dima' Иванов", specialty: "Борода, Бритье", level: "Сеньор-мастер", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop" },
+            { id: 3, name: "Михаил 'Misha' Сидоров", specialty: "Мужские стрижки, Укладка", level: "Мастер", photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop" },
+            { id: 4, name: "Сергей 'Serge' Козлов", specialty: "Мужские стрижки", level: "Мастер", photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&h=120&fit=crop" }
+        ];
+
+        // Generate time slots
+        function generateTimeSlots() {
+            const slots = {};
+            const today = new Date();
+            for (let i = 0; i < 14; i++) {
+                const date = new Date(today);
+                date.setDate(date.getDate() + i);
+                if (date.getDay() === 0) continue;
+                const dateStr = date.toISOString().split('T')[0];
+                slots[dateStr] = [];
+                for (let h = 10; h < 21; h++) {
+                    if (Math.random() > 0.3) {
+                        slots[dateStr].push(h.toString().padStart(2, '0') + ':00');
+                    }
+                }
+                if (slots[dateStr].length === 0) {
+                    slots[dateStr].push('10:00', '14:00', '18:00');
+                }
+            }
+            return slots;
+        }
+
+        const TIME_SLOTS = generateTimeSlots();
+
+        // ============================================
+        // STATE
+        // ============================================
+        let currentView = 'home';
+        let bookingStep = 1;
+        let selectedService = null;
+        let selectedBarber = null;
+        let selectedDate = null;
+        let selectedTime = null;
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        function init() {
+            renderServices();
+            renderBarbers();
+            setupNavigation();
+        }
+
+        function setupNavigation() {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const view = btn.dataset.view;
+                    showView(view);
+                });
+            });
+        }
+
+        function showView(view) {
+            currentView = view;
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === view);
+            });
+            document.querySelectorAll('[id^="view-"]').forEach(el => {
+                el.classList.add('hidden');
+            });
+            document.getElementById('view-' + view).classList.remove('hidden');
+
+            if (view === 'booking') {
+                resetBooking();
+            }
+        }
+
+        // ============================================
+        // RENDER FUNCTIONS
+        // ============================================
+        function renderServices() {
+            const container = document.getElementById('services-list');
+            container.innerHTML = SERVICES.map(s => `
+        <div class="service-item" onclick="selectService(${s.id})">
+          <div>
+            <div class="service-name">${s.name}</div>
+            <div class="service-duration">${s.duration} мин</div>
+          </div>
+          <div class="service-price">${s.price} ₽</div>
+        </div>
+      `).join('');
+        }
+
+        function renderServicesForBooking() {
+            const container = document.getElementById('services-booking');
+            container.innerHTML = SERVICES.map(s => `
+        <div class="service-item ${selectedService?.id === s.id ? 'selected' : ''}" onclick="selectServiceForBooking(${s.id})">
+          <div>
+            <div class="service-name">${s.name}</div>
+            <div class="service-duration">${s.duration} мин</div>
+          </div>
+          <div class="service-price">${s.price} ₽</div>
+        </div>
+      `).join('');
+        }
+
+        function renderBarbers() {
+            const container = document.getElementById('barbers-list');
+            container.innerHTML = BARBERS.map(b => `
+        <div class="barber-card">
+          <img src="${b.photo}" alt="${b.name}" class="barber-photo">
+          <div>
+            <div class="barber-name">${b.name}</div>
+            <div class="barber-specialty">${b.specialty}</div>
+            <span class="barber-level">${b.level}</span>
+          </div>
+        </div>
+      `).join('');
+        }
+
+        function renderBarbersForBooking() {
+            const container = document.getElementById('barbers-booking');
+            container.innerHTML = `
+        <div class="barber-card ${selectedBarber === null ? 'selected' : ''}" onclick="selectBarberForBooking(null)">
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(232,213,183,0.3); display: flex; align-items: center; justify-content: center; font-size: 20px;">🎲</div>
+          <div>
+            <div class="barber-name">Любой свободный мастер</div>
+            <div class="barber-specialty">Система подберет ближайшее время</div>
+          </div>
+        </div>
+      ` + BARBERS.map(b => `
+        <div class="barber-card ${selectedBarber?.id === b.id ? 'selected' : ''}" onclick="selectBarberForBooking(${b.id})">
+          <img src="${b.photo}" alt="${b.name}" class="barber-photo">
+          <div>
+            <div class="barber-name">${b.name}</div>
+            <div class="barber-specialty">${b.specialty}</div>
+            <span class="barber-level">${b.level}</span>
+          </div>
+        </div>
+      `).join('');
+        }
+
+        function renderDates() {
+            const container = document.getElementById('dates-grid');
+            const dates = Object.keys(TIME_SLOTS);
+            container.innerHTML = dates.map(d => {
+                const date = new Date(d);
+                const label = date.toLocaleDateString('ru', { weekday: 'short', day: 'numeric' });
+                return `<div class="slot ${selectedDate === d ? 'selected' : ''}" onclick="selectDate('${d}')">${label}</div>`;
+            }).join('');
+        }
+
+        function renderTimes() {
+            const container = document.getElementById('times-grid');
+            const times = TIME_SLOTS[selectedDate] || [];
+            container.innerHTML = times.map(t => `
+        <div class="slot ${selectedTime === t ? 'selected' : ''}" onclick="selectTime('${t}')">${t}</div>
+      `).join('');
+        }
+
+        // ============================================
+        // BOOKING FUNCTIONS
+        // ============================================
+        function resetBooking() {
+            bookingStep = 1;
+            selectedService = null;
+            selectedBarber = null;
+            selectedDate = null;
+            selectedTime = null;
+
+            document.getElementById('booking-error').classList.add('hidden');
+            document.getElementById('booking-success').classList.add('hidden');
+            document.getElementById('booking-form').classList.remove('hidden');
+            document.getElementById('client-name').value = '';
+            document.getElementById('client-phone').value = '';
+
+            const confirmBtn = document.getElementById('btn-confirm');
+            if (confirmBtn) confirmBtn.disabled = true;
+
+            showBookingStep(1);
+            renderServicesForBooking();
+            renderBarbersForBooking();
+            renderDates();
+            setupBookingInputs();
+        }
+
+        function showBookingStep(step) {
+            bookingStep = step;
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById('booking-step-' + i).classList.toggle('hidden', i !== step);
+            }
+        }
+
+        function goToStep(step) {
+            showBookingStep(step);
+            if (step === 3) {
+                renderDates();
+            }
+        }
+
+        function selectService(id) {
+            selectedService = SERVICES.find(s => s.id === id);
+            // Show notification or visual feedback
+            alert(`Выбрана услуга: ${selectedService.name} - ${selectedService.price} ₽`);
+        }
+
+        function selectServiceForBooking(id) {
+            selectedService = SERVICES.find(s => s.id === id);
+            renderServicesForBooking();
+            const btnStep1 = document.getElementById('btn-step-1');
+            if (btnStep1) btnStep1.disabled = false;
+        }
+
+        function selectBarberForBooking(id) {
+            selectedBarber = id ? BARBERS.find(b => b.id === id) : null;
+            renderBarbersForBooking();
+            const btnStep2 = document.getElementById('btn-step-2');
+            if (btnStep2) btnStep2.disabled = false;
+        }
+
+        function selectDate(date) {
+            selectedDate = date;
+            selectedTime = null;
+            renderDates();
+            renderTimes();
+            document.getElementById('times-section').classList.remove('hidden');
+            document.getElementById('btn-step-3').disabled = true;
+        }
+
+        function selectTime(time) {
+            selectedTime = time;
+            renderTimes();
+            const btnStep3 = document.getElementById('btn-step-3');
+            if (btnStep3) btnStep3.disabled = false;
+        }
+
+        function confirmBooking() {
+            const name = document.getElementById('client-name').value.trim();
+            const phone = document.getElementById('client-phone').value.trim();
+
+            if (!name || !phone) {
+                alert('Пожалуйста, заполните все поля');
+                return;
+            }
+
+            const barberName = selectedBarber ? selectedBarber.name : 'любому мастеру';
+            const dateFormatted = new Date(selectedDate).toLocaleDateString('ru', { weekday: 'long', day: 'numeric', month: 'long' });
+
+            // Show success
+            document.getElementById('booking-form').classList.add('hidden');
+            document.getElementById('booking-error').classList.add('hidden');
+            document.getElementById('booking-success').classList.remove('hidden');
+            document.getElementById('success-message').textContent =
+                `${selectedService.name} к ${barberName} ${dateFormatted} в ${selectedTime}. Ждем вас!`;
+        }
+
+        // Update button state when inputs change
+        function setupBookingInputs() {
+            const nameInput = document.getElementById('client-name');
+            const phoneInput = document.getElementById('client-phone');
+            const confirmBtn = document.getElementById('btn-confirm');
+
+            if (!nameInput || !phoneInput || !confirmBtn) return;
+
+            function checkInputs() {
+                confirmBtn.disabled = !(nameInput.value.trim() && phoneInput.value.trim());
+            }
+
+            nameInput.addEventListener('input', checkInputs);
+            phoneInput.addEventListener('input', checkInputs);
+        }
+
+        // Also set up immediately in case DOM is already loaded
+        setupBookingInputs();
+
+        // ============================================
+        // CHAT FUNCTIONS
+        // ============================================
+        function handleChatKey(e) {
+            if (e.key === 'Enter') {
+                sendFromInput();
+            }
+        }
+
+        function sendFromInput() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (message) {
+                sendMessage(message);
+                input.value = '';
+            }
+        }
+
+        function sendMessage(message) {
+            const container = document.getElementById('chat-messages');
+
+            // Add user message
+            container.innerHTML += `<div class="chat-msg chat-user">${message}</div>`;
+
+            // Scroll to bottom
+            container.scrollTop = container.scrollHeight;
+
+            // Simulate bot response
+            setTimeout(() => {
+                let response = '';
+                const lowerMsg = message.toLowerCase();
+
+                if (lowerMsg.includes('привет') || lowerMsg.includes('здравствуй')) {
+                    response = "Добрый день! Это AI-ассистент барбершопа Gentleman's Club. Чем могу помочь?";
+                } else if (lowerMsg.includes('цена') || lowerMsg.includes('сколько') || lowerMsg.includes('стоимост')) {
+                    response = "Наши услуги: Стрижка машинкой - 800₽, Мужская стрижка - 1500₽, Стрижка + Укладка - 1800₽, Стрижка бороды - 1000₽, Королевское бритье - 1800₽, Камуфляж седины - 2500₽, Комплекс Стрижка + Борода - 2000₽. Хотите записаться?";
+                } else if (lowerMsg.includes('записаться') || lowerMsg.includes('запись')) {
+                    response = "Отлично! Перенаправляю вас к форме записи.";
+                    setTimeout(() => showView('booking'), 1500);
+                } else if (lowerMsg.includes('акция') || lowerMsg.includes('скидка')) {
+                    response = "У нас сейчас действует акция: При записи на 'Камуфляж седины' на этой неделе — скидка 15%! Также в День Рождения мы дарим скидку 20%.";
+                } else if (lowerMsg.includes('какая стрижка') || lowerMsg.includes('подойдет')) {
+                    response = "Я могу помочь с записью, но для консультации по стилю лучше подойдут наши барберы. Хотите, запишу вас на консультацию к мастеру?";
+                } else if (lowerMsg.includes('жалоба') || lowerMsg.includes('недоволен')) {
+                    response = "Приношу извинения за неудобства. Я передаю ваш контакт управляющему, чтобы он лично решил этот вопрос.";
+                } else if (lowerMsg.includes('женск') || lowerMsg.includes('девочк')) {
+                    response = "Мы специализируемся на мужских стрижках. Могу предложить детскую стрижку для ваших детей или классическую мужскую стрижку.";
+                } else {
+                    response = "Я могу помочь с: записью на стрижку, уточнением цен, подбором мастера. Что вас интересует?";
+                }
+
+                container.innerHTML += `<div class="chat-msg chat-bot">${response}</div>`;
+                container.scrollTop = container.scrollHeight;
+            }, 500);
+        }
+
+        // Initialize on load
+        init();
+
+        function submitComment() {
+            const input = document.getElementById('comment-input');
+            const comment = input.value.trim();
+            if (comment) {
+                alert('Спасибо за отзыв!');
+                input.value = '';
+            } else {
+                alert('Пожалуйста, введите текст отзыва');
+            }
+        }
+    </script>
+</body>
+
+</html>
